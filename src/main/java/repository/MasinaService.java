@@ -1,12 +1,13 @@
-package org.example.lab9;
+package repository;
 
-import com.example.masini.model.Masina;
-import com.example.masini.repository.MasinaRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class MasinaService {
+
     private final MasinaRepository masinaRepository;
 
     public MasinaService(MasinaRepository masinaRepository) {
@@ -14,30 +15,33 @@ public class MasinaService {
     }
 
     public Masina adaugaMasina(Masina masina) {
-        return masinaRepository.save(masina);
+        masinaRepository.save(masina);
+        return masina;
     }
 
     public void stergeMasina(String numarInmatriculare) {
-        masinaRepository.deleteById(numarInmatriculare);
+        masinaRepository.deleteByNumarInmatriculare(numarInmatriculare);
     }
 
     public Masina cautaMasina(String numarInmatriculare) {
-        return masinaRepository.findById(numarInmatriculare).orElse(null);
+        return masinaRepository.findByNumarInmatriculare(numarInmatriculare);
     }
 
-    public List<Masina> toateMasinile() {
-        return (List<Masina>) masinaRepository.findAll();
+    public List<Masina> afiseazaToateMasinile() {
+        return masinaRepository.findAll();
     }
 
-    public int numarMasiniMarca(String marca) {
+    public long numaraMasiniCuMarca(String marca) {
         return masinaRepository.countByMarca(marca);
     }
 
-    public List<Masina> masiniSub100000Km() {
-        return masinaRepository.findAllWithKilometersUnder100000();
+    public long numaraMasiniSubKilometri(int kilometri) {
+        return masinaRepository.countByKilometriLessThan(kilometri);
     }
 
-    public List<Masina> masiniNoi() {
-        return masinaRepository.findAllYoungerThanFiveYears();
+    public List<Masina> afiseazaMasiniMaiNoiDeAni(int ani) {
+        int anulCurent = LocalDate.now().getYear();
+        int limita = anulCurent - ani;
+        return masinaRepository.findByAnFabricatieGreaterThan(limita);
     }
 }

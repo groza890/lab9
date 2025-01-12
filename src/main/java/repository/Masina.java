@@ -1,4 +1,4 @@
-package org.example.lab9;
+package repository;
 
 import org.springframework.data.annotation.Id;
 
@@ -9,6 +9,9 @@ public class Masina {
     private int anFabricatie;
     private String culoare;
     private int kilometri;
+
+    public Masina(String numarInmatriculare, String marca, int anFabricatie, String culoare, int kilometri) {
+    }
 
     // Getteri și setteri
     public String getNumarInmatriculare() {
